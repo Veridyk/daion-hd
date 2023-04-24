@@ -1,0 +1,78 @@
+﻿@model ServisDeck.Models.Requirement.RequirementViewIndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="bg-white p-4 flex justify-between">
+    <h1 class="text-2xl font-bold">ServiceDesk - Administrátor</h1>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="bg-red-100 border @TempData["messageColor"] px-4 py-3 rounded relative mt-4" role="alert">
+        <span class="block sm:inline">@TempData["message"]</span>
+    </div>
+}
+<div class="bg-white p-4 p-4 my-4">
+    <h2 class="text-xl font-bold mb-4">Seznam požadavků</h2>
+    <div class="relative overflow-x-auto shadow-md p-4">
+        <table id="myTable" class="w-full text-sm text-left text-black bg-white my-2">
+            <thead class="text-xs text-black uppercase bg-gray-50 bg-gray-100">
+                <tr>
+                    <th>Evidováno</th>
+                    <th>Předmět</th>
+                    <th>Učebna</th>
+                    <th>Zpráva</th>
+                    <th>Vytvořil</th>
+                    <th>Stav</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model.Requirements)
+                {
+                    <tr class="bg-white border-b bg-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-200">
+                        <td>@req.Created</td>
+                        <td>@req.Subject</td>
+                        <td>@req.Room</td>
+                        <td>@Html.Raw(req.Message)</td>
+                        <td>@req.Creator.Name</td>
+                        <td>@req.GetState()</td>
+                        <td><a class="text-blue-700" asp-action="Detail" asp-route-id="@req.Id">Detail</a></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": " _MENU_ ",
+                    "zeroRecords": "Nebyly nalezeny žádné záznamy.",
+                    "info": "Strana _PAGE_ z _PAGES_",
+                    "infoEmpty": "Záznamy nejsou k dispozici.",
+                    "search": "Vyhledat:  ",
+                    "paginate": {
+                        "first": "První",
+                        "last": "Poslední",
+                        "next": "Další",
+                        "previous": "Předchozí"
+                    },
+                }
+            }
+            );
+        });
+
+
+    </script>
+}
+

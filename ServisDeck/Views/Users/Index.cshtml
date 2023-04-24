@@ -1,0 +1,99 @@
+﻿@model ServisDeck.Models.Users.UserViewIndexModel
+
+@{
+    ViewData["Title"] = "Správa uživatelů";
+}
+
+
+<div class="bg-white p-4 flex justify-between">
+    <h1 class="text-2xl font-bold">ServiceDesk - Správa uživatelů</h1>
+    <button id="showModal" class="py-2 px-4 text-white bg-blue-700 hover:bg-blue-800">Založit uživatele</button>
+</div>
+
+@if (TempData["message"] != null)
+{
+<div class="bg-red-100 border @TempData["messageColor"] px-4 py-3 rounded relative mt-4" role="alert">
+    <span class="block sm:inline">@TempData["message"]</span>
+</div>
+}
+
+<div class="bg-white p-4 p-4 my-4">
+    <h2 class="text-xl font-bold mb-4">Seznam uživatelů</h2>
+    <div class="relative overflow-x-auto shadow-md p-4">
+        <table id="myTable" class="w-full text-sm text-left text-black bg-white my-2">
+            <thead class="text-xs text-black uppercase bg-gray-50 bg-gray-100">
+                <tr>
+                    <th class="px-2">Email</th>
+                    <th>Username</th>
+                    <th>Jméno</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr class="bg-white border-b bg-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-200">
+                        <td>@user.Email</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Name</td>
+                        <td><a class="text-blue-700" asp-action="Detail" asp-route-id="@user.Id">Detail</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="testModal" style="max-width:670px" hidden>
+        <h2 class="text-xl font-bold">Vytvořit uživatele systému</h2>
+        <form class="my-4" method="post" asp-controller="Users" asp-action="CreateUser">
+            <label asp-for="@Model.UserViewModel.Email" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.UserViewModel.Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Email">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.UserViewModel.Email"></span>
+            <label asp-for="@Model.UserViewModel.Name" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="UserViewModel.Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Jméno">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="UserViewModel.Name"></span>
+            <label asp-for="@Model.UserViewModel.Password" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="UserViewModel.Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Heslo">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="UserViewModel.Password"></span>
+            <label asp-for="@Model.UserViewModel.Role" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <select asp-for="@Model.UserViewModel.Role" asp-items="@ViewBag.RoleList" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></select>
+            <label asp-for="@Model.UserViewModel.School" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <select asp-for="@Model.UserViewModel.School" asp-items="@ViewBag.SchoolList" asp- class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </select>
+            <input id="submitRequest" type="submit" value="Vytvořit uživatele" class="py-2 px-4 mt-4 text-white bg-blue-700 hover:bg-blue-800 cursor-pointer" />
+        </form>
+    </div>
+</div>
+
+@section scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": " _MENU_ ",
+                    "zeroRecords": "Nebyly nalezeny žádné záznamy.",
+                    "info": "Strana _PAGE_ z _PAGES_",
+                    "infoEmpty": "Záznamy nejsou k dispozici.",
+                    "search": "Vyhledat:  ",
+                    "paginate": {
+                        "first": "První",
+                        "last": "Poslední",
+                        "next": "Další",
+                        "previous": "Předchozí"
+                    },
+                }
+            }
+            );
+
+            $("#showModal").click((e) => {
+                $("#testModal").modal({
+                    clickClose: false
+                });
+            })
+        });
+
+
+    </script>
+}
+

@@ -1,0 +1,67 @@
+﻿@model ServisDeck.Models.Login.LoginViewModel
+
+@*<h2 class="m-auto">User Log-In</h2>
+<form class="w-100 md:w-25 mx-auto" asp-controller="Login" asp-action="Index" method="post">
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="alert-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="alert-danger"></span>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" />
+        <a class="btn" asp-action="Login">Log-In</a>
+    </div>
+</form>*@
+
+    <div class="mx-auto flex justify-center items-center sm:w-full md:w-1/2 bg-white rounded-lg p-10 sm:m-auto md:m-auto lg:m-0" style="border: solid 1px #CACED0; min-height: 524px; margin: auto">
+        <div class="sm:w-full text-left m-auto lg:m-0">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">Přihlásit se ke svému účtu</h1>
+            <p class="mb-10">
+                Nemáte účet? Kontaktujte Vašeho správce ICT.
+                </a>
+            </p>
+            <div class="w-full">
+
+                <form asp-controller="Login" asp-action="Index" method="post">
+                    <input type="hidden" name="redirect_to" value="">
+                    <input type="hidden" name="attempts" value="">
+                    <input type="hidden" name="cust_id" id="cust_id" value="">
+                    <input type="hidden" name="token" id="token" value="">
+                    <div>
+                        <label asp-for="Email" class="block text-sm font-medium leading-8 text-gray-700">
+                            E-mailová adresa:
+                        </label>
+                        <div class="mt-1 rounded-md">
+                            <input asp-for="Email" placeholder="Email" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <span asp-validation-for="Email" class="text-red-700"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <label asp-for="Password" class="block text-sm font-medium leading-8 text-gray-700">
+                            Heslo:
+                        </label>
+                        <div class="mt-1 rounded-md">
+                            <input asp-for="Password" placeholder="Vaše heslo" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <span asp-validation-for="Password" class="text-red-700"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <span class="block w-full rounded-md">
+                            <input type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-md font-medium rounded-md text-white bg-blue-700 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out" value="Přihlásit se">
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

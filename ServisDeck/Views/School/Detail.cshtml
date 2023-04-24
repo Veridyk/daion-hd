@@ -1,0 +1,148 @@
+﻿@model ServisDeck.Models.School.School
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="bg-white p-4 flex justify-between">
+    <h1 class="text-2xl font-bold">Detail školy</h1>
+    <button id="showModal" class="py-2 px-4 text-white bg-blue-700 hover:bg-blue-800">Upravit školu</button>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="bg-red-100 border @TempData["messageColor"] px-4 py-3 rounded relative mt-4" role="alert">
+        <span class="block sm:inline">@TempData["message"]</span>
+    </div>
+}
+
+<div class="bg-white p-4 my-4">
+    <div class="grid auto-cols-auto lg:grid-cols-12 p-4">
+        @*NEW LINE*@
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.Name):
+        </div>
+        <div class="py-2 lg:col-span-11">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+
+        @*NEW LINE*@
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.ResponsiblePerson):
+        </div>
+        <div class="py-2 lg:col-span-3">
+            @Html.DisplayFor(model => model.ResponsiblePerson)
+        </div>
+        <div class="font-bold py-2">
+            Adresa:
+        </div>
+        <div class="py-2 lg:col-span-7">
+            @Model.GetFullAdress()
+        </div>
+        @*NEW LINE*@
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.ICO):
+        </div>
+        <div class="py-2 lg:col-span-3">
+            @Html.DisplayFor(model => model.ICO)
+        </div>
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.DIC):
+        </div>
+        <div class="py-2 lg:col-span-7">
+            @Html.DisplayFor(model => model.DIC)
+        </div>
+        @*NEW LINE*@
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.Phone):
+        </div>
+        <div class="py-2 lg:col-span-3">
+            @Html.DisplayFor(model => model.Phone)
+        </div>
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.Mail):
+        </div>
+        <div class="py-2 lg:col-span-7">
+            @Html.DisplayFor(model => model.Mail)
+        </div>
+        @*NEW LINE*@
+        <div class="font-bold py-2">
+            @Html.DisplayNameFor(model => model.Web):
+        </div>
+        <div class="py-2 lg:col-span-11">
+            @Html.DisplayFor(model => model.Web)
+        </div>
+        <div class="py-2 lg:col-span-9"></div>
+        <br />
+        <br />
+    </div>
+    <br />
+    <a class="p-4 my-4 text-blue-700" asp-action="Index">Zpět na seznam</a>
+    <br /><br />
+
+    <div id="testModal" style="max-width:670px" hidden>
+        <h2 class="text-xl font-bold">Upravit školu</h2>
+        <form class="my-4" method="post" asp-controller="School" asp-action="EditSchool">
+            <input type="hidden" asp-for="@Model.Id" />
+            <label asp-for="@Model.Name" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Název školy">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.Name"></span>
+            <label asp-for="@Model.ResponsiblePerson" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.ResponsiblePerson" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Email">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.ResponsiblePerson"></span>
+            <label asp-for="@Model.City" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.City" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Město">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.City"></span>
+
+            <label asp-for="@Model.Street" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.Street" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Ulice">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.Street"></span>
+
+            <label asp-for="@Model.StreetNumber" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.StreetNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Číslo popisné">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.StreetNumber"></span>
+
+            <label asp-for="@Model.PostalCode" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.PostalCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="PSČ">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.PostalCode"></span>
+
+            <label asp-for="@Model.ICO" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.ICO" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="IČO">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.ICO"></span>
+
+            <label asp-for="@Model.DIC" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.DIC" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="DIČ">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.DIC"></span>
+
+            <label asp-for="@Model.Phone" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.Phone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Telefon">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.Phone"></span>
+
+            <label asp-for="@Model.Mail" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.Mail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Email">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.Mail"></span>
+
+            <label asp-for="@Model.Web" class="block text-gray-700 text-sm font-bold my-2"></label>
+            <input type="text" asp-for="@Model.Web" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Webová stránka">
+            <span class="text-sm text-red-500 my-2" asp-validation-for="@Model.Web"></span>
+
+            <input id="submitRequest" type="submit" value="Upravit školu" class="py-2 px-4 mt-4 text-white bg-blue-700 hover:bg-blue-800 cursor-pointer" />
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/tinymce/tinymce.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#showModal").click((e) => {
+
+                $("#testModal").modal({
+                    clickClose: false
+                });
+
+            })
+        });
+    </script>
+}
